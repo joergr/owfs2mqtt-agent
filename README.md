@@ -1,5 +1,15 @@
 # owfs-agent
 
+HOME-ASSISTANT configuration
+
+    # Sensors
+    sensor:
+      - platform: mqtt
+        name: "Sensor1"
+        state_topic: "onewire/28.F2FBE3467CC2"
+        unit_of_measurement: '°C'
+        value_template: "{{ value_json.temperature }}"
+
 INSERT YOUR APP DESCRIPTION HERE
 
 ## Development
