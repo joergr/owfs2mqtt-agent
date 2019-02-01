@@ -29,7 +29,6 @@
     "@types/mqtt": "^2.5.0",
     "applicationinsights": "^1.0.8",
     "async-mqtt": "^2.0.0",
-    "codelyzer": "^4.5.0",
     "mqtt": "^2.18.8",
     "node-fetch": "^2.3.0",
     "owfs": "^0.3.2",

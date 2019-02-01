@@ -8,10 +8,10 @@ export class Monitor1Wire {
   private monitoredDevices: string[] = [];
   mqttClient: AsyncClient;
 
-  constructor(serverAddress: string, private interval: number) {
-    this.wrapper = new OwfsWrapper(serverAddress);
+  constructor(owfsAddress: string, owfsPort: string, mqttAddress: string, mqttPort: string, private interval: number) {
+    this.wrapper = new OwfsWrapper(owfsAddress, owfsPort);
     this.mqttClient = connect(
-      'tcp://127.0.0.1:1883',
+      'tcp://' + mqttAddress + ':' + mqttPort,
       {}
     );
 
@@ -25,7 +25,7 @@ export class Monitor1Wire {
   }
 
   private async initDevices() {
-    const devices = await this.wrapper.getAllDevices();
+    const devices = (await this.wrapper.getAllDevices()) || [];
 
     for (const dev of devices) {
       // console.log('devices: ' + dev);
@@ -61,21 +61,23 @@ export class Monitor1Wire {
   }
 
   public async startMonitor() {
-    await this.initDevices();
+    try {
+      await this.initDevices();
 
-    if (this.monitoredDevices.length === 0) {
-      console.log('no devices of type DS18B20 found ');
-      return 'exit';
+      if (this.monitoredDevices.length === 0) {
+        console.log('no devices of type DS18B20 found ');
+        return 'exit';
+      }
+
+      const stopInterrupt = false;
+      while (!stopInterrupt) {
+        await this.readData();
+        // return 'done';
+      }
+    } finally {
+      await this.mqttClient.end();
     }
 
-    const stopInterrupt = false;
-    while (!stopInterrupt) {
-      await this.readData();
-
-      // return 'done';
-    }
-
-    await this.mqttClient.end();
     return 'Done';
   }
 }

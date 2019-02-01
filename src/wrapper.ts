@@ -3,8 +3,8 @@ import { IDeviceInfo } from './device-info';
 
 export class OwfsWrapper {
   private client: Client;
-  constructor(serverAddress: string) {
-    this.client = new Client(serverAddress);
+  constructor(serverAddress: string, serverPort: string) {
+    this.client = new Client(serverAddress, serverPort);
   }
 
   public getAllDevices() {

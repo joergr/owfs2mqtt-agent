@@ -1,0 +1,12 @@
+version: '3'
+services:
+  owfs2mqtt:
+    container_name: owfs2mqtt-agent
+    build: .
+    restart: unless-stopped
+    environment:
+      - INTERVAL=10
+      - BROKER_IP=127.0.0.1
+      - BROKER_PORT=1883
+      - OWFS_IP=127.0.0.1
+      - OWFS_PORT=4304
