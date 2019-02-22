@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:10.15.1-alpine
 
 COPY package.json yarn.lock /usr/src/app/
 COPY . /usr/src/app/
